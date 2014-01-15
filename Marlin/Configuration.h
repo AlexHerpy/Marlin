@@ -1,6 +1,11 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+// This config file has been updated with parameters for the Solidoodle printer
+// Parameters copied from:
+// https://github.com/mlaws/solidoodle2-marlin/blob/Marlin_v1/Marlin/Configuration.h
+
+
 // This configuration file contains the basic settings.
 // Advanced settings can be found in Configuration_adv.h
 // BASIC SETTINGS: select your board type, temperature sensor type, axis scaling, and endstop configuration
@@ -8,10 +13,6 @@
 //===========================================================================
 //============================= DELTA Printer ===============================
 //===========================================================================
-// This config file has been updated with parameters for the Solidoodle printer
-// Parameters copied from:
-// https://github.com/mlaws/solidoodle2-marlin/blob/Marlin_v1/Marlin/Configuration.h
-//
 
 // User-specified version info of this build to display in [Pronterface, etc] terminal window during
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
@@ -24,7 +25,6 @@
 // Serial port 0 is still used by the Arduino bootloader regardless of this setting.
 #define SERIAL_PORT 0
 
-// This determines the communication speed of the printer
 // This determines the communication speed of the printer
 #define BAUDRATE 115200
 
@@ -87,7 +87,6 @@
 //// The following define selects which power supply you have. Please choose the one that matches your setup
 // 1 = ATX
 // 2 = X-Box 360 203Watts (the blue wire connected to PS_ON and the red wire to VCC)
-
 #define POWER_SUPPLY 1
 
 // Define this to have the electronics keep the powersupply off on startup. If you don't know what this is leave it.
@@ -326,28 +325,39 @@ const bool Z_ENDSTOPS_INVERTING = false; //{SD Patch} // set to true to invert t
 #define Z_MAX_LENGTH (Z_MAX_POS - Z_MIN_POS)
 //============================= Bed Auto Leveling ===========================
 
-//#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
 
 #ifdef ENABLE_AUTO_BED_LEVELING
 
   // these are the positions on the bed to do the probing
-  #define LEFT_PROBE_BED_POSITION 15
-  #define RIGHT_PROBE_BED_POSITION 170
-  #define BACK_PROBE_BED_POSITION 180
-  #define FRONT_PROBE_BED_POSITION 20
+  // note only 3 points wil be probed (in order)
+  //    1. left/back
+  //    2. left/front
+  //    3. right/front
+  #define LEFT_PROBE_BED_POSITION 0
+  #define RIGHT_PROBE_BED_POSITION 140
+  #define BACK_PROBE_BED_POSITION 106
+  #define FRONT_PROBE_BED_POSITION 16
+
 
   // these are the offsets to the prob relative to the extruder tip (Hotend - Probe)
-  #define X_PROBE_OFFSET_FROM_EXTRUDER -25
+/*  #define X_PROBE_OFFSET_FROM_EXTRUDER -25
   #define Y_PROBE_OFFSET_FROM_EXTRUDER -29
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER -12.35
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -12.35 */
 
-  #define Z_RAISE_BEFORE_HOMING 4       // (in mm) Raise Z before homing (G28) for Probe Clearance.
+  #define X_PROBE_OFFSET_FROM_EXTRUDER 0
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER 0
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0
+
+
+
+  #define Z_RAISE_BEFORE_HOMING 20       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
 
-  #define XY_TRAVEL_SPEED 8000         // X and Y axis travel speed between probes, in mm/min
+  #define XY_TRAVEL_SPEED 4000         // X and Y axis travel speed between probes, in mm/min
 
-  #define Z_RAISE_BEFORE_PROBING 15    //How much the extruder will be raised before traveling to the first probing point.
-  #define Z_RAISE_BETWEEN_PROBINGS 5  //How much the extruder will be raised when traveling from between next probing points
+  #define Z_RAISE_BEFORE_PROBING 20    //How much the extruder will be raised before traveling to the first probing point.
+  #define Z_RAISE_BETWEEN_PROBINGS 20  //How much the extruder will be raised when traveling from between next probing points
 
 
   //If defined, the Probe servo will be turned on only during movement and then turned off to avoid jerk
@@ -360,7 +370,10 @@ const bool Z_ENDSTOPS_INVERTING = false; //{SD Patch} // set to true to invert t
 //If you have enabled the Bed Auto Levelling and are using the same Z Probe for Z Homing,
 //it is highly recommended you let this Z_SAFE_HOMING enabled!!!
 
-  #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area.
+
+// Not using Z_SAFE_HOMING since Z endstop is used in addition to Z probe on hot end
+
+// #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area.
                           // When defined, it will:
                           // - Allow Z homing only after X and Y homing AND stepper drivers still enabled
                           // - If stepper drivers timeout, it will need X and Y homing again before Z homing
@@ -376,7 +389,7 @@ const bool Z_ENDSTOPS_INVERTING = false; //{SD Patch} // set to true to invert t
 
   // with accurate bed leveling, the bed is sampled in a ACCURATE_BED_LEVELING_POINTSxACCURATE_BED_LEVELING_POINTS grid and least squares solution is calculated
   // Note: this feature occupies 10'206 byte
-  #define ACCURATE_BED_LEVELING
+ // #define ACCURATE_BED_LEVELING
   
   #ifdef ACCURATE_BED_LEVELING
      // I wouldn't see a reason to go above 3 (=9 probing points on the bed)
