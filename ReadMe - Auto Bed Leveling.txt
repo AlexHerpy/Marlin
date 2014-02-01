@@ -1,19 +1,20 @@
-ReadMe - Auto Bed Leveling
+ReadMe - Auto Bed Leveling (ABL)
 
 Date:
-2014-01-21
+2014-01-31
 
 Summary:
-A few notes on configuring the Auto Bed Leveling feature of Marlin for use with a modified Solidoodle.
+A few notes on configuring the Auto Bed Leveling feature of Marlin for use with
+a modified Solidoodle.
 
 
 Detailed Description:
-
-Auto Bed Leveling is a feature that  compensates for a printing surface that is not perfectly level, however the surface does need to be perfectly flat. This feature utilizes the Z-axis endstop to probe 3 points (or more) on the printing surface. Typically, the endstop is mounted to a servo that positions the endstop below the hot end during leveling, then retracts the endstop during printing.
-
-For the Solidoodle printer, rather than using a servo, the Z-axis end stop is rigidly mounted to the carrage. The relative position of the end stop from the tips of the hot end is about [-15, -70, 6.0] mm.  At the probe locations a 6.3 mm tall cap nut is placed. Relative to the end stop position, the probe locations are [0, 130], [0,0], [140,0].
-
-The probe locations should be updated to reflect their position relative to the hot end.   
+Auto Bed Leveling is a feature that compensates for a printing surface that is
+not perfectly level, however the surface does need to be perfectly flat. This 
+feature utilizes the Z-axis endstop to probe 3 points (or more, see below) on 
+the printing surface. Typically, the endstop is mounted to a servo that 
+positions the endstop below the hot end during leveling, then retracts the 
+endstop during printing.
 
 
 Auto Bed Leveling Parameters in Configuration.h file:
@@ -25,6 +26,14 @@ Auto Bed Leveling Parameters in Configuration.h file:
 	left/back is [x-min, y-max]
 	right/front is [x-max, y-min]
 
-3. Define probe offset from hot end (Z-offset must be 0)
+3. Define probe offset from hot end
+
+4. Use the Z_RAISE_* values to ensure the ABL does not crash into anything nor
+    scrape along any surface during Homing and ABL
+
+5. Z Safe Homing is required if the ABL probe cannot Z home at X=0, Y=0
+
+6. Use Accurate Bed Leveling to probe a grid of points, as opposed to just 3
+
 
 
