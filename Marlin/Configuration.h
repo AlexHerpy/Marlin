@@ -285,7 +285,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define INVERT_X_DIR true    // for Mendel set to false, for Orca set to true
 #define INVERT_Y_DIR false    // for Mendel set to true, for Orca set to false
 #define INVERT_Z_DIR false     // for Mendel set to false, for Orca set to true
-#define INVERT_E0_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
+#define INVERT_E0_DIR true   // for direct drive extruder v9 set to true, for geared extruder set to false
 #define INVERT_E1_DIR false    // for direct drive extruder v9 set to true, for geared extruder set to false
 #define INVERT_E2_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
 
@@ -311,7 +311,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define Z_MAX_LENGTH (Z_MAX_POS - Z_MIN_POS)
 //============================= Bed Auto Leveling ===========================
 
-//#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
 
 #ifdef ENABLE_AUTO_BED_LEVELING
 
@@ -320,15 +320,15 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
   //    1. left/back
   //    2. left/front
   //    3. right/front
-  #define LEFT_PROBE_BED_POSITION 0
-  #define RIGHT_PROBE_BED_POSITION 140
-  #define BACK_PROBE_BED_POSITION 130
-  #define FRONT_PROBE_BED_POSITION 0
+  #define LEFT_PROBE_BED_POSITION -11
+  #define RIGHT_PROBE_BED_POSITION 107.5
+  #define BACK_PROBE_BED_POSITION 77.5
+  #define FRONT_PROBE_BED_POSITION -16
 
   // these are the offsets to the prob relative to the extruder tip (Hotend - Probe)
-  #define X_PROBE_OFFSET_FROM_EXTRUDER 0
-  #define Y_PROBE_OFFSET_FROM_EXTRUDER 0
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0
+  #define X_PROBE_OFFSET_FROM_EXTRUDER -34.5
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER -14.5
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -1.2
 
   #define Z_RAISE_BEFORE_HOMING 5       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
@@ -350,7 +350,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //it is highly recommended you let this Z_SAFE_HOMING enabled!!!
 
   // MissionBot: Not using Z_SAFE_HOMING since Z endstop is used in addition to Z probe on hot end
-  // #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area.
+   #define Z_SAFE_HOMING   // This feature is meant to avoid Z homing with probe outside the bed area.
                           // When defined, it will:
                           // - Allow Z homing only after X and Y homing AND stepper drivers still enabled
                           // - If stepper drivers timeout, it will need X and Y homing again before Z homing
@@ -359,8 +359,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
   #ifdef Z_SAFE_HOMING
 
-    #define Z_SAFE_HOMING_X_POINT (X_MAX_LENGTH/2)    // X point for Z homing when homing all axis (G28)
-    #define Z_SAFE_HOMING_Y_POINT (Y_MAX_LENGTH/2)    // Y point for Z homing when homing all axis (G28)
+    #define Z_SAFE_HOMING_X_POINT -11    // X point for Z homing when homing all axis (G28)
+    #define Z_SAFE_HOMING_Y_POINT -16  // Y point for Z homing when homing all axis (G28)
 
   #endif
 
@@ -394,7 +394,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,4000,884}  // default steps per unit for Ultimaker
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,2667,509}  // default steps per unit for Ultimaker
 #define DEFAULT_MAX_FEEDRATE          {400, 400, 5, 12}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {3000,3000,100,5000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
