@@ -2619,7 +2619,15 @@ void process_commands()
         SERIAL_ECHOPGM(MSG_FREE_MEMORY);
         SERIAL_ECHO(freeMemory());
     }
-
+    case 560;
+    {
+    	// M560; set hysteresis values (x,y,z,e)
+      if (code_seen('X')) hysteresis_steps_x=code_value();
+      if (code_seen('Y')) hysteresis_steps_y=code_value();
+      if (code_seen('Z')) hysteresis_steps_z=code_value();
+      if (code_seen('E')) hysteresis_steps_e=code_value();
+      
+    }
     #ifdef FILAMENTCHANGEENABLE
     case 600: //Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
     {
