@@ -96,6 +96,12 @@ float autotemp_factor=0.1;
 bool autotemp_enabled=false;
 #endif
 
+// hysteresis values - M560
+long hysteresis_steps_x = 0;
+long hysteresis_steps_y = 0;
+long hysteresis_steps_z = 0;
+long hysteresis_steps_e = 0;
+
 //===========================================================================
 //=================semi-private variables, used in inline  functions    =====
 //===========================================================================
@@ -638,6 +644,33 @@ block->steps_y = labs((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-positi
   {
     block->direction_bits |= (1<<E_AXIS); 
   }
+
+// If there has been a change in direction, add any hysteresis to the steps
+  if( block->direction_bits != previous_direction_bits )
+  {
+    if( (block->direction_bits & (1<<X_AXIS)) != (previous_direction_bits & (1<<X_AXIS)) )
+    {
+      block->steps_x += hysteresis_steps_x;
+      delta_steps[X_AXIS] += (delta_steps[X_AXIS] < 0) ? -hysteresis_steps_x : hysteresis_steps_x;
+    }
+    if( (block->direction_bits & (1<<Y_AXIS)) != (previous_direction_bits & (1<<Y_AXIS)) )
+    {
+      block->steps_y += hysteresis_steps_y;
+      delta_steps[Y_AXIS] += (delta_steps[Y_AXIS] < 0) ? -hysteresis_steps_y : hysteresis_steps_y;
+    }
+    if( (block->direction_bits & (1<<Z_AXIS)) != (previous_direction_bits & (1<<Z_AXIS)) )
+    {
+      block->steps_z += hysteresis_steps_z;
+      delta_steps[Z_AXIS] += (delta_steps[Z_AXIS] < 0) ? -hysteresis_steps_z : hysteresis_steps_z;
+    }
+    if( (block->direction_bits & (1<<E_AXIS)) != (previous_direction_bits & (1<<E_AXIS)) )
+    {
+      block->steps_e += hysteresis_steps_e;
+      delta_steps[E_AXIS] += (delta_steps[E_AXIS] , 0) ? -hysteresis_steps_e : hysteresis_steps_e;
+    }
+    block->step_event_count = max(block->steps_x, max(block->steps_y, max(block->steps_z, block->steps_e)));
+  }
+  previous_direction_bits = block->direction_bits;
 
   block->active_extruder = extruder;
 
