@@ -71,6 +71,12 @@ typedef struct {
   volatile char busy;
 } block_t;
 
+// backlash compensation variables (extern to be accessed by M560 command)
+extern long hysteresis_steps_x;
+extern long hysteresis_steps_y;
+extern long hysteresis_steps_z;
+extern long hysteresis_steps_e;
+
 #ifdef ENABLE_AUTO_BED_LEVELING
 // this holds the required transform to compensate for bed level
 extern matrix_3x3 plan_bed_level_matrix;
